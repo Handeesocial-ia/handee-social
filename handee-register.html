@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handee Social — Créer mon compte</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#1B4FD8;--blue-l:#3b6ef5;--gold:#F5A623;--green:#22c55e;--red:#ef4444;
+  --bg:#05080f;--bg2:#0b1120;--bg3:#111827;--text:#f0f4ff;--muted:#8896b3;
+  --border:rgba(255,255,255,0.07);--card:rgba(255,255,255,0.03);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;}
+
+/* BG */
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 20% 20%,rgba(27,79,216,.2) 0,transparent 55%),
+             radial-gradient(ellipse at 80% 80%,rgba(245,166,35,.07) 0,transparent 55%);}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(5,8,15,.85);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;height:60px;}
+.topbar-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;text-decoration:none;color:var(--text);}
+.topbar-logo span{color:var(--blue-l);}
+.topbar-back{font-size:13px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s;}
+.topbar-back:hover{color:var(--text);}
+.security-badge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
+
+/* LAYOUT */
+.wrap{max-width:1100px;margin:0 auto;padding:100px 24px 60px;position:relative;z-index:1;}
+.layout{display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:start;}
+@media(max-width:900px){.layout{grid-template-columns:1fr;}}
+
+/* STEPS HEADER */
+.steps-header{display:flex;align-items:center;gap:0;margin-bottom:40px;}
+.step-dot{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;}
+.step-dot .dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:1.5px solid var(--border);color:var(--muted);transition:all .3s;}
+.step-dot.active .dot{background:var(--blue);border-color:var(--blue);color:#fff;}
+.step-dot.done .dot{background:var(--green);border-color:var(--green);color:#fff;}
+.step-dot.active .step-label{color:var(--text);}
+.step-dot .step-label{color:var(--muted);}
+.step-line{flex:1;height:1px;background:var(--border);margin:0 12px;max-width:60px;}
+
+/* PANELS */
+.panel{display:none;}
+.panel.active{display:block;}
+.panel-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:6px;line-height:1.1;}
+.panel-sub{font-size:15px;color:var(--muted);margin-bottom:32px;}
+
+/* PLAN CARDS */
+.plan-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px;}
+.plan-card{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:24px;cursor:pointer;transition:all .25s;position:relative;}
+.plan-card:hover{border-color:rgba(27,79,216,.4);}
+.plan-card.selected{border-color:var(--blue);background:rgba(27,79,216,.07);}
+.plan-card.popular::before{content:'⭐ Recommandé';position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:3px 14px;border-radius:100px;white-space:nowrap;}
+.plan-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:4px;}
+.plan-price{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;margin:8px 0 4px;}
+.plan-price sup{font-size:16px;vertical-align:top;margin-top:6px;}
+.plan-price sub{font-size:13px;font-weight:400;color:var(--muted);}
+.plan-desc{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.plan-features{list-style:none;font-size:13px;display:flex;flex-direction:column;gap:7px;}
+.plan-features li{display:flex;align-items:flex-start;gap:7px;color:var(--muted);}
+.plan-features li .ck{color:var(--green);min-width:14px;}
+.plan-radio{position:absolute;top:16px;right:16px;width:18px;height:18px;border-radius:50%;border:2px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;transition:all .25s;}
+.plan-card.selected .plan-radio{border-color:var(--blue);background:var(--blue);}
+.plan-card.selected .plan-radio::after{content:'';width:6px;height:6px;background:#fff;border-radius:50%;}
+
+/* FORM */
+.form-section{margin-bottom:28px;}
+.form-section h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:7px;}
+.field input,.field select{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 15px;color:var(--text);font-size:15px;outline:none;transition:border-color .2s;font-family:'DM Sans',sans-serif;}
+.field input:focus,.field select:focus{border-color:var(--blue);}
+.field input.err{border-color:var(--red);}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.field-hint{font-size:11px;color:var(--muted);margin-top:5px;display:flex;align-items:center;gap:4px;}
+
+/* CARD INPUT */
+.card-input-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 15px;display:flex;align-items:center;gap:12px;transition:border-color .2s;}
+.card-input-wrap:focus-within{border-color:var(--blue);}
+.card-input-wrap input{background:transparent;border:none;outline:none;color:var(--text);font-size:15px;flex:1;font-family:'DM Mono',monospace;}
+.card-logos{display:flex;gap:6px;margin-left:auto;}
+.card-logo{background:white;border-radius:3px;padding:2px 5px;font-size:10px;font-weight:800;color:#1a1a2e;}
+.card-logo.visa{color:#1434CB;}
+.card-logo.mc{color:#EB001B;}
+
+/* SUBMIT BTN */
+.submit-btn{width:100%;background:var(--blue);color:#fff;border:none;padding:16px;border-radius:12px;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.submit-btn:hover{background:var(--blue-l);transform:translateY(-1px);box-shadow:0 0 40px rgba(27,79,216,.4);}
+.submit-btn:disabled{opacity:.6;transform:none;pointer-events:none;}
+.submit-btn .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* SECURITY LINE */
+.security-line{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:14px;font-size:11px;color:var(--muted);}
+.security-line span{display:flex;align-items:center;gap:4px;}
+
+/* ERROR/SUCCESS MESSAGES */
+.form-err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:14px;display:none;}
+.form-err.show{display:block;}
+
+/* SUCCESS PANEL */
+.success-wrap{text-align:center;padding:60px 24px;}
+.success-icon{font-size:64px;margin-bottom:24px;display:block;}
+.success-title{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;margin-bottom:12px;line-height:1.1;}
+.success-sub{font-size:16px;color:var(--muted);margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;}
+.success-steps{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;max-width:480px;margin:0 auto 32px;text-align:left;}
+.success-step{display:flex;align-items:flex-start;gap:14px;padding:10px 0;border-bottom:1px solid var(--border);}
+.success-step:last-child{border-bottom:none;}
+.ss-num{width:28px;height:28px;min-width:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:2px;}
+.ss-text strong{font-size:14px;font-weight:600;display:block;margin-bottom:2px;}
+.ss-text span{font-size:12px;color:var(--muted);}
+.go-btn{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;text-decoration:none;padding:18px 48px;border-radius:14px;font-family:'Syne',sans-serif;font-size:17px;font-weight:700;transition:all .25s;box-shadow:0 0 40px rgba(27,79,216,.4);}
+.go-btn:hover{background:var(--blue-l);transform:translateY(-2px);}
+
+/* ORDER SUMMARY (right column) */
+.summary{position:sticky;top:80px;}
+.summary-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;}
+.summary-head{background:linear-gradient(135deg,var(--blue),var(--blue-l));padding:28px;}
+.summary-head h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:4px;}
+.summary-head p{font-size:13px;color:rgba(255,255,255,.7);}
+.summary-body{padding:24px;}
+.summary-line{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;}
+.summary-line:last-child{border-bottom:none;}
+.summary-line .lbl{color:var(--muted);}
+.summary-total{display:flex;align-items:center;justify-content:space-between;padding:16px 0 0;margin-top:4px;border-top:1px solid var(--border);}
+.summary-total .lbl{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;}
+.summary-total .val{font-family:'Syne',sans-serif;font-weight:800;font-size:26px;color:var(--blue-l);}
+.summary-guarantee{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:14px;margin-top:16px;display:flex;gap:10px;font-size:13px;color:var(--muted);}
+.summary-guarantee strong{color:var(--green);display:block;margin-bottom:2px;}
+.testimonial{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:14px;}
+.testimonial p{font-size:13px;color:var(--muted);line-height:1.6;font-style:italic;margin-bottom:8px;}
+.testimonial-author{font-size:12px;font-weight:600;color:var(--text);}
+.stars{color:var(--gold);font-size:12px;margin-bottom:6px;}
+.trust-logos{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
+.trust-logo{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--muted);}
+
+/* COUNTDOWN */
+.urgency-bar{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:20px;font-size:13px;}
+.urgency-bar .icon{font-size:18px;}
+.urgency-bar strong{color:var(--red);}
+.countdown{font-family:'DM Mono',monospace;font-weight:700;color:var(--red);font-size:15px;}
+
+/* CHECKBOX */
+.checkbox-row{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);margin-bottom:14px;}
+.checkbox-row input[type=checkbox]{width:16px;height:16px;min-width:16px;margin-top:2px;accent-color:var(--blue);}
+.checkbox-row a{color:var(--blue-l);}
+
+/* PASSWORD STRENGTH */
+.pw-strength{height:3px;border-radius:100px;background:var(--bg3);margin-top:6px;overflow:hidden;}
+.pw-strength-fill{height:100%;border-radius:100px;transition:all .3s;}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="handee-offre-conseillers.html" class="topbar-logo">Handee <span>Social</span></a>
+  <div class="security-badge">🔒 Paiement 100% sécurisé · SSL</div>
+  <a href="handee-offre-conseillers.html" class="topbar-back">← Retour à l'offre</a>
+</div>
+
+<div class="wrap">
+
+  <!-- SUCCESS STATE -->
+  <div id="success-view" class="success-wrap" style="display:none">
+    <span class="success-icon">🎉</span>
+    <div class="success-title">Bienvenue sur<br>Handee Social !</div>
+    <div class="success-sub">Votre compte est créé. Votre premier post sera publié demain matin à <strong style="color:var(--text)">07:00</strong> automatiquement. Connectez vos réseaux sociaux pour finaliser le setup.</div>
+    <div class="success-steps">
+      <div class="success-step">
+        <div class="ss-num">1</div>
+        <div class="ss-text">
+          <strong>✅ Compte créé</strong>
+          <span>Votre email + mot de passe sont actifs</span>
+        </div>
+      </div>
+      <div class="success-step">
+        <div class="ss-num">2</div>
+        <div class="ss-text">
+          <strong>🔗 Connectez vos réseaux sociaux</strong>
+          <span>TikTok, Instagram, Facebook, LinkedIn — 10 min</span>
+        </div>
+      </div>
+      <div class="success-step">
+        <div class="ss-num">3</div>
+        <div class="ss-text">
+          <strong>🤖 Personnalisez votre contenu IA</strong>
+          <span>Choisissez vos thèmes, votre ville, votre ton</span>
+        </div>
+      </div>
+      <div class="success-step">
+        <div class="ss-num">4</div>
+        <div class="ss-text">
+          <strong>🚀 Demain 07:00 — premier post publié</strong>
+          <span>Vous recevrez une notification de confirmation</span>
+        </div>
+      </div>
+    </div>
+    <a href="handee-social-app.html" class="go-btn" id="go-app-btn">
+      Accéder à mon espace →
+    </a>
+    <div style="font-size:12px;color:var(--muted);margin-top:14px">Un email de confirmation a été envoyé à <strong id="confirm-email" style="color:var(--text)"></strong></div>
+  </div>
+
+  <!-- REGISTER FLOW -->
+  <div id="register-view">
+    <!-- STEPS -->
+    <div class="steps-header">
+      <div class="step-dot active" id="step1-dot">
+        <div class="dot" id="step1-num">1</div>
+        <span class="step-label">Votre offre</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-dot" id="step2-dot">
+        <div class="dot" id="step2-num">2</div>
+        <span class="step-label">Votre profil</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step-dot" id="step3-dot">
+        <div class="dot" id="step3-num">3</div>
+        <span class="step-label">Paiement</span>
+      </div>
+    </div>
+
+    <div class="layout">
+      <!-- LEFT COLUMN -->
+      <div>
+        <!-- STEP 1 — PLAN CHOICE -->
+        <div class="panel active" id="panel-1">
+          <div class="panel-title">Choisissez votre offre</div>
+          <div class="panel-sub">Changeable à tout moment. Sans engagement.</div>
+
+          <div class="urgency-bar">
+            <span class="icon">⏰</span>
+            <span>Offre de lancement — prix bloqué encore <strong id="countdown" class="countdown">23:47:12</strong></span>
+          </div>
+
+          <div class="plan-cards">
+            <div class="plan-card" id="card-essentiel" onclick="selectPlan('essentiel')">
+              <div class="plan-radio" id="radio-essentiel"></div>
+              <div class="plan-name">Essentiel</div>
+              <div class="plan-price"><sup>€</sup>59<sub>/mois</sub></div>
+              <div class="plan-desc">Pour démarrer — sans engagement</div>
+              <ul class="plan-features">
+                <li><span class="ck">✓</span> 20 publications/mois</li>
+                <li><span class="ck">✓</span> 3 vidéos IA/semaine</li>
+                <li><span class="ck">✓</span> 2 carrousels/semaine</li>
+                <li><span class="ck">✓</span> 4 plateformes</li>
+                <li><span class="ck">✓</span> Rapport mensuel</li>
+              </ul>
+            </div>
+            <div class="plan-card popular" id="card-pro" onclick="selectPlan('pro')">
+              <div class="plan-radio" id="radio-pro"></div>
+              <div class="plan-name">Pro</div>
+              <div class="plan-price"><sup>€</sup>79<sub>/mois</sub></div>
+              <div class="plan-desc">Tout inclus + personnalisation</div>
+              <ul class="plan-features">
+                <li><span class="ck">✓</span> <strong>Tout Essentiel</strong></li>
+                <li><span class="ck">✓</span> Contenu à votre nom/ville</li>
+                <li><span class="ck">✓</span> Stories Instagram auto</li>
+                <li><span class="ck">✓</span> Hashtags locaux ciblés</li>
+                <li><span class="ck">✓</span> Rapport analytique avancé</li>
+                <li><span class="ck">✓</span> Support prioritaire 48h</li>
+              </ul>
+            </div>
+          </div>
+
+          <button class="submit-btn" onclick="goToStep(2)">
+            Continuer → <span id="plan-price-btn">59€/mois</span>
+          </button>
+          <div class="security-line">
+            <span>🔒 SSL</span>
+            <span>↩️ Résiliable à tout moment</span>
+            <span>✉️ Support sous 48h</span>
+          </div>
+        </div>
+
+        <!-- STEP 2 — PROFILE -->
+        <div class="panel" id="panel-2">
+          <div class="panel-title">Créez votre compte</div>
+          <div class="panel-sub">2 minutes pour finaliser votre inscription.</div>
+
+          <div id="form-err-2" class="form-err">Veuillez remplir tous les champs obligatoires.</div>
+
+          <div class="form-section">
+            <h3>👤 Vos informations</h3>
+            <div class="field-row">
+              <div class="field">
+                <label>Prénom *</label>
+                <input type="text" id="f-prenom" placeholder="Sophie" autocomplete="given-name"/>
+              </div>
+              <div class="field">
+                <label>Nom *</label>
+                <input type="text" id="f-nom" placeholder="Martin" autocomplete="family-name"/>
+              </div>
+            </div>
+            <div class="field">
+              <label>Email professionnel *</label>
+              <input type="email" id="f-email" placeholder="sophie.martin@gmail.com" autocomplete="email"/>
+            </div>
+            <div class="field">
+              <label>Téléphone</label>
+              <input type="tel" id="f-tel" placeholder="+33 6 12 34 56 78" autocomplete="tel"/>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>🏠 Votre activité</h3>
+            <div class="field-row">
+              <div class="field">
+                <label>Ville principale *</label>
+                <input type="text" id="f-city" placeholder="Lyon, Bordeaux, Paris…"/>
+              </div>
+              <div class="field">
+                <label>Spécialité *</label>
+                <select id="f-specialty">
+                  <option value="">Choisir…</option>
+                  <option>Immo neuf</option>
+                  <option>Immo neuf & ancien</option>
+                  <option>Location</option>
+                  <option>Investissement locatif</option>
+                  <option>Immo de luxe</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Réseau / Agence (optionnel)</label>
+              <input type="text" id="f-network" placeholder="IAD, SAFTI, Orpi, Indépendant…"/>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>🔐 Mot de passe</h3>
+            <div class="field">
+              <label>Choisissez un mot de passe *</label>
+              <input type="password" id="f-pass" placeholder="8 caractères minimum" oninput="checkPwStrength(this.value)"/>
+              <div class="pw-strength"><div class="pw-strength-fill" id="pw-fill" style="width:0%;background:var(--red)"></div></div>
+              <div class="field-hint" id="pw-hint">🔒 Minimum 8 caractères</div>
+            </div>
+            <div class="field">
+              <label>Confirmer le mot de passe *</label>
+              <input type="password" id="f-pass2" placeholder="Répétez votre mot de passe"/>
+            </div>
+          </div>
+
+          <div class="checkbox-row">
+            <input type="checkbox" id="cb-cgu"/>
+            <label for="cb-cgu">J'accepte les <a href="#">conditions générales</a> et la <a href="#">politique de confidentialité</a> de Handee Social</label>
+          </div>
+
+          <div class="checkbox-row">
+            <input type="checkbox" id="cb-rgpd" checked/>
+            <label for="cb-rgpd">J'accepte de recevoir les emails de confirmation et rapports mensuels (vous pouvez vous désabonner à tout moment)</label>
+          </div>
+
+          <div style="display:flex;gap:12px">
+            <button class="submit-btn" style="background:var(--bg2);border:1px solid var(--border);color:var(--muted);flex:0 0 auto;width:auto;padding:16px 24px" onclick="goToStep(1)">← Retour</button>
+            <button class="submit-btn" onclick="validateStep2()">
+              Continuer → Paiement
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3 — PAYMENT -->
+        <div class="panel" id="panel-3">
+          <div class="panel-title">Informations de paiement</div>
+          <div class="panel-sub">Paiement sécurisé · Résiliable à tout moment · Premier mois facturé maintenant.</div>
+
+          <div id="form-err-3" class="form-err">Vérifiez vos informations de carte bancaire.</div>
+
+          <div class="form-section">
+            <h3>💳 Carte bancaire</h3>
+            <div class="field">
+              <label>Numéro de carte</label>
+              <div class="card-input-wrap">
+                <input type="text" id="f-card" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)"/>
+                <div class="card-logos">
+                  <div class="card-logo visa">VISA</div>
+                  <div class="card-logo mc">MC</div>
+                </div>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Date d'expiration</label>
+                <input type="text" id="f-exp" placeholder="MM / AA" maxlength="7" oninput="formatExp(this)"/>
+              </div>
+              <div class="field">
+                <label>CVV</label>
+                <input type="text" id="f-cvv" placeholder="123" maxlength="4"/>
+              </div>
+            </div>
+            <div class="field">
+              <label>Nom sur la carte</label>
+              <input type="text" id="f-cardname" placeholder="SOPHIE MARTIN"/>
+            </div>
+            <div class="field-hint">🔒 Vos données sont chiffrées — nous ne stockons jamais votre numéro de carte</div>
+          </div>
+
+          <div class="form-section">
+            <h3>🧾 Facturation</h3>
+            <div class="field">
+              <label>Adresse de facturation</label>
+              <input type="text" id="f-address" placeholder="12 rue de la Paix"/>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Code postal</label>
+                <input type="text" id="f-zip" placeholder="69001"/>
+              </div>
+              <div class="field">
+                <label>Ville</label>
+                <input type="text" id="f-billcity" placeholder="Lyon"/>
+              </div>
+            </div>
+            <div class="field">
+              <label>Numéro de TVA (optionnel — si professionnel)</label>
+              <input type="text" id="f-tva" placeholder="FR12345678901"/>
+            </div>
+          </div>
+
+          <div id="pay-summary" style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px">
+            <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px">
+              <span style="color:var(--muted)">Plan <span id="pay-plan-name">Essentiel</span></span>
+              <span id="pay-plan-price">59 €</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px">
+              <span style="color:var(--muted)">Frais d'activation</span>
+              <span style="color:var(--green)">Offerts</span>
+            </div>
+            <div style="border-top:1px solid var(--border);margin:10px 0;"></div>
+            <div style="display:flex;justify-content:space-between;">
+              <span style="font-family:'Syne',sans-serif;font-weight:700">Total aujourd'hui</span>
+              <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--blue-l)" id="pay-total">59 €</span>
+            </div>
+          </div>
+
+          <button class="submit-btn" id="pay-btn" onclick="processPayment()">
+            <span id="pay-btn-text">🔒 Payer <span id="pay-btn-amount">59 €</span> et activer mon compte</span>
+          </button>
+          <div class="security-line">
+            <span>🔒 Chiffrement SSL 256-bit</span>
+            <span>↩️ Remboursé si non satisfait sous 14j</span>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:12px">
+            <button class="submit-btn" style="background:var(--bg2);border:1px solid var(--border);color:var(--muted);flex:0 0 auto;width:auto;padding:12px 20px;font-size:13px" onclick="goToStep(2)">← Retour</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN — SUMMARY -->
+      <div class="summary" id="right-summary">
+        <div class="summary-card">
+          <div class="summary-head">
+            <h2 id="sum-plan">Plan Essentiel</h2>
+            <p>Handee Social — CM automatique</p>
+          </div>
+          <div class="summary-body">
+            <div class="summary-line"><span class="lbl">Publications/mois</span><span>20</span></div>
+            <div class="summary-line"><span class="lbl">Vidéos IA/semaine</span><span>3</span></div>
+            <div class="summary-line"><span class="lbl">Carrousels/semaine</span><span>2</span></div>
+            <div class="summary-line"><span class="lbl">Plateformes</span><span>TikTok, IG, FB, LI</span></div>
+            <div class="summary-line"><span class="lbl">Premier post</span><span style="color:var(--green)">Demain 07:00</span></div>
+            <div class="summary-line"><span class="lbl">Engagement</span><span style="color:var(--green)">Sans engagement</span></div>
+            <div class="summary-total">
+              <span class="lbl">Total/mois</span>
+              <span class="val" id="sum-price">59 €</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-guarantee">
+          <span style="font-size:20px">🛡️</span>
+          <div>
+            <strong>Satisfait ou remboursé 14 jours</strong>
+            Si votre premier post n'est pas publié dans les 24h suivant votre inscription, nous vous remboursons intégralement.
+          </div>
+        </div>
+
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p id="testimonial-text">"En 2 semaines, j'ai arrêté de passer 2h par jour sur mes réseaux. Handee Social publie pour moi chaque matin. Mes leads ont augmenté de 40%."</p>
+          <div class="testimonial-author" id="testimonial-author">Sophie M. — Conseillère immo, Lyon</div>
+        </div>
+
+        <div class="trust-logos">
+          <div class="trust-logo">🔒 SSL</div>
+          <div class="trust-logo">🏦 Paiement sécurisé</div>
+          <div class="trust-logo">🇫🇷 RGPD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────
+let selectedPlan = 'essentiel';
+let currentStep  = 1;
+let userData     = {};
+
+const PLANS = {
+  essentiel: { name:'Essentiel', price:59, priceStr:'59 €',
+    features:['20 publications/mois','3 vidéos IA/semaine','2 carrousels/semaine','4 plateformes','Rapport mensuel'] },
+  pro:       { name:'Pro', price:79, priceStr:'79 €',
+    features:['Tout Essentiel','Contenu à votre nom/ville','Stories Instagram auto','Hashtags locaux ciblés','Rapport analytique avancé','Support prioritaire 48h'] }
+};
+
+const TESTIMONIALS = {
+  essentiel: { text:'"En 2 semaines, j\'ai arrêté de passer 2h par jour sur mes réseaux. Handee Social publie pour moi chaque matin. Mes leads ont augmenté de 40%."', author:'Sophie M. — Conseillère immo, Lyon' },
+  pro:       { text:'"Le plan Pro vaut vraiment la peine. Mon contenu est personnalisé avec mon nom et ma ville de Bordeaux. Les prospects voient que c\'est du contenu local. Résultat : +60% de demandes en 1 mois."', author:'Marc D. — Agent immobilier, Bordeaux' }
+};
+
+// ─── INIT ────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const plan   = params.get('plan') || 'essentiel';
+  selectPlan(plan === 'pro' ? 'pro' : 'essentiel');
+  startCountdown();
+});
+
+// ─── PLAN SELECTION ───────────────────────────
+function selectPlan(plan) {
+  selectedPlan = plan;
+  document.getElementById('card-essentiel').classList.toggle('selected', plan === 'essentiel');
+  document.getElementById('card-pro').classList.toggle('selected', plan === 'pro');
+
+  const p = PLANS[plan];
+  document.getElementById('plan-price-btn').textContent = p.priceStr + '/mois';
+  document.getElementById('sum-plan').textContent       = 'Plan ' + p.name;
+  document.getElementById('sum-price').textContent      = p.priceStr;
+  document.getElementById('pay-plan-name').textContent  = p.name;
+  document.getElementById('pay-plan-price').textContent = p.priceStr;
+  document.getElementById('pay-total').textContent      = p.priceStr;
+  document.getElementById('pay-btn-amount').textContent = p.priceStr;
+
+  const t = TESTIMONIALS[plan];
+  document.getElementById('testimonial-text').textContent   = t.text;
+  document.getElementById('testimonial-author').textContent = t.author;
+}
+
+// ─── STEP NAVIGATION ─────────────────────────
+function goToStep(n) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+n).classList.add('active');
+  ['step1-dot','step2-dot','step3-dot'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    el.classList.remove('active','done');
+    const num = document.getElementById(id.replace('dot','num'));
+    if (i+1 < n)      { el.classList.add('done'); num.textContent = '✓'; }
+    else if (i+1 === n) { el.classList.add('active'); num.textContent = i+1; }
+    else                { num.textContent = i+1; }
+  });
+  currentStep = n;
+  window.scrollTo({ top: 0, behavior:'smooth' });
+}
+
+// ─── STEP 2 VALIDATION ───────────────────────
+function validateStep2() {
+  const fields = ['f-prenom','f-nom','f-email','f-city','f-specialty','f-pass','f-pass2'];
+  let ok = true;
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('err');
+    if (!el.value.trim()) { el.classList.add('err'); ok = false; }
+  });
+
+  const email = document.getElementById('f-email').value;
+  if (email && !email.includes('@')) { document.getElementById('f-email').classList.add('err'); ok = false; }
+
+  const pass  = document.getElementById('f-pass').value;
+  const pass2 = document.getElementById('f-pass2').value;
+  if (pass.length < 8) { document.getElementById('f-pass').classList.add('err'); ok = false; }
+  if (pass !== pass2)  { document.getElementById('f-pass2').classList.add('err'); ok = false; }
+
+  if (!document.getElementById('cb-cgu').checked) {
+    showErr('form-err-2', 'Vous devez accepter les conditions générales pour continuer.');
+    return;
+  }
+  if (!ok) { showErr('form-err-2', 'Veuillez remplir tous les champs obligatoires.'); return; }
+
+  userData = {
+    prenom:    document.getElementById('f-prenom').value.trim(),
+    nom:       document.getElementById('f-nom').value.trim(),
+    email:     document.getElementById('f-email').value.trim(),
+    tel:       document.getElementById('f-tel').value.trim(),
+    city:      document.getElementById('f-city').value.trim(),
+    specialty: document.getElementById('f-specialty').value,
+    password:  pass,
+    plan:      selectedPlan,
+  };
+
+  // Pre-fill billing city
+  document.getElementById('f-billcity').value = userData.city;
+  document.getElementById('f-cardname').value = (userData.prenom+' '+userData.nom).toUpperCase();
+
+  document.getElementById('form-err-2').classList.remove('show');
+  goToStep(3);
+}
+
+// ─── PAYMENT PROCESSING ──────────────────────
+function processPayment() {
+  const card = document.getElementById('f-card').value.replace(/\s/g,'');
+  const exp  = document.getElementById('f-exp').value;
+  const cvv  = document.getElementById('f-cvv').value;
+  if (card.length < 16 || !exp || cvv.length < 3) {
+    showErr('form-err-3','Vérifiez vos informations de carte bancaire.');
+    return;
+  }
+
+  // Loading state
+  const btn = document.getElementById('pay-btn');
+  btn.disabled = true;
+  document.getElementById('pay-btn-text').innerHTML = '<div class="spinner"></div> Traitement en cours…';
+
+  // Simulate payment (replace with real Stripe in production)
+  setTimeout(() => {
+    saveUserToStorage(userData);
+    showSuccess();
+  }, 2200);
+}
+
+// ─── SAVE TO LOCALSTORAGE ────────────────────
+function saveUserToStorage(user) {
+  const users = JSON.parse(localStorage.getItem('hs_users') || '{}');
+  const id    = 'u_' + Date.now();
+  users[user.email] = {
+    id, email:user.email, password:user.password,
+    name: user.prenom + ' ' + user.nom,
+    prenom: user.prenom,
+    plan: user.plan === 'pro' ? 'Pro' : 'Essentiel',
+    city: user.city, specialty: user.specialty,
+    active:true, role:'client',
+    color: user.plan==='pro' ? '#f5a623' : '#3b6ef5',
+    initials: (user.prenom[0]+user.nom[0]).toUpperCase(),
+    joinDate: new Date().toISOString().split('T')[0],
+    accounts:{ tiktok:{connected:false}, instagram:{connected:false}, facebook:{connected:false}, linkedin:{connected:false} },
+    settings:{ autoPublish:true, approvalMode:false, notifEmail:true, notifSlack:false, weeklyReport:true },
+    themes:['prix_villes','ptz_2025','mythe_immo']
+  };
+  localStorage.setItem('hs_users', JSON.stringify(users));
+  // Store current session
+  localStorage.setItem('hs_session', JSON.stringify({ email:user.email }));
+}
+
+// ─── SHOW SUCCESS ────────────────────────────
+function showSuccess() {
+  document.getElementById('register-view').style.display = 'none';
+  document.getElementById('success-view').style.display  = 'block';
+  document.getElementById('confirm-email').textContent   = userData.email;
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+// ─── HELPERS ────────────────────────────────
+function showErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 5000);
+}
+
+function formatCard(el) {
+  let v = el.value.replace(/\D/g,'').substring(0,16);
+  el.value = v.replace(/(.{4})/g,'$1 ').trim();
+}
+
+function formatExp(el) {
+  let v = el.value.replace(/\D/g,'');
+  if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2,4);
+  el.value = v;
+}
+
+function checkPwStrength(pw) {
+  let score = 0;
+  if (pw.length >= 8)  score++;
+  if (pw.length >= 12) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  const fill   = document.getElementById('pw-fill');
+  const hint   = document.getElementById('pw-hint');
+  const colors = ['#ef4444','#ef4444','#f5a623','#22c55e','#22c55e'];
+  const labels = ['Trop court','Faible','Moyen','Fort','Très fort'];
+  fill.style.width   = (score/5*100)+'%';
+  fill.style.background = colors[score-1] || '#ef4444';
+  hint.textContent   = score > 0 ? '🔒 Mot de passe : ' + (labels[score-1]||'') : '🔒 Minimum 8 caractères';
+}
+
+// ─── COUNTDOWN ───────────────────────────────
+function startCountdown() {
+  // Count down from random time (between 12h and 23h)
+  let stored = localStorage.getItem('hs_countdown_end');
+  if (!stored) {
+    const end = Date.now() + (Math.floor(Math.random()*11+12)*3600 + Math.floor(Math.random()*3600))*1000;
+    localStorage.setItem('hs_countdown_end', end);
+    stored = end;
+  }
+  const end = parseInt(stored);
+  const tick = () => {
+    const diff = end - Date.now();
+    if (diff <= 0) { document.getElementById('countdown').textContent = '00:00:00'; return; }
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    document.getElementById('countdown').textContent =
+      String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    setTimeout(tick, 1000);
+  };
+  tick();
+}
+</script>
+</body>
+</html>

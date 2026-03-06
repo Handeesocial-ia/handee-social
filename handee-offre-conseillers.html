@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handee Social — CM automatique pour conseillers immobiliers</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root{--bl:#1B4FD8;--bll:#3b6ef5;--gd:#F5A623;--gn:#22c55e;--rd:#ef4444;--bg:#05080f;--bg2:#0b1120;--bg3:#111827;--tx:#f0f4ff;--mu:#8896b3;--br:rgba(255,255,255,0.07);--cd:rgba(255,255,255,0.04);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(5,8,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;}
+.nav-logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--tx);text-decoration:none;}
+.nav-logo span{color:var(--bll);}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{font-size:14px;color:var(--mu);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--tx);}
+.nav-cta{background:var(--bl);color:#fff;padding:9px 22px;border-radius:9px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s;}
+.nav-cta:hover{background:var(--bll);}
+section{padding:100px 24px;}
+.container{max-width:1100px;margin:0 auto;}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px);}
+.orb1{width:700px;height:700px;background:rgba(27,79,216,.28);top:-150px;left:50%;transform:translateX(-50%);}
+.orb2{width:400px;height:400px;background:rgba(245,166,35,.1);bottom:-50px;right:0;}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(27,79,216,.15);border:1px solid rgba(27,79,216,.4);border-radius:100px;padding:7px 18px;font-size:13px;font-weight:500;color:#7ba8ff;margin-bottom:36px;animation:up .6s both;}
+.badge-dot{width:7px;height:7px;background:var(--gd);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(42px,7vw,88px);font-weight:800;line-height:1.0;letter-spacing:-2.5px;max-width:940px;animation:up .6s .1s both;}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(--bll),var(--gd));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:19px;color:var(--mu);max-width:580px;margin:28px auto 0;line-height:1.75;font-weight:300;animation:up .6s .2s both;}
+.btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:48px;animation:up .6s .3s both;}
+.btn-p{background:var(--bl);color:#fff;padding:17px 40px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:16px;text-decoration:none;transition:all .25s;box-shadow:0 0 40px rgba(27,79,216,.4);}
+.btn-p:hover{background:var(--bll);transform:translateY(-2px);box-shadow:0 0 60px rgba(27,79,216,.6);}
+.btn-s{background:transparent;color:var(--tx);padding:17px 32px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:600;font-size:16px;text-decoration:none;border:1px solid var(--br);transition:all .2s;}
+.btn-s:hover{border-color:rgba(255,255,255,.2);background:var(--cd);}
+.platforms{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:52px;animation:up .6s .4s both;}
+.platforms small{font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:1px;}
+.plat{display:flex;align-items:center;gap:6px;background:var(--cd);border:1px solid var(--br);border-radius:100px;padding:8px 16px;font-size:13px;font-weight:500;}
+.ticker-wrap{background:linear-gradient(90deg,var(--bl),#0f2f8a,var(--bl));padding:14px 0;overflow:hidden;white-space:nowrap;}
+.ticker{display:inline-flex;gap:60px;animation:tick 30s linear infinite;}
+.ticker-item{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;letter-spacing:.3px;}
+.ticker-item span{color:var(--gd);}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.sec-bg{background:var(--bg2);}
+.sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--bll);margin-bottom:12px;}
+h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,52px);font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:16px;}
+.sec-sub{font-size:17px;color:var(--mu);max-width:540px;line-height:1.7;}
+.prob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:52px;}
+.prob-card{background:var(--cd);border:1px solid var(--br);border-radius:16px;padding:28px;position:relative;overflow:hidden;}
+.prob-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(239,68,68,.6),transparent);}
+.prob-ico{font-size:30px;display:block;margin-bottom:14px;}
+.prob-card h3{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:10px;}
+.prob-card p{font-size:14px;color:var(--mu);line-height:1.65;}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-top:52px;}
+.feat-card{background:var(--bg3);border:1px solid var(--br);border-radius:20px;padding:34px 30px;transition:transform .2s,border-color .2s;position:relative;overflow:hidden;}
+.feat-card:hover{transform:translateY(-4px);border-color:rgba(27,79,216,.4);}
+.feat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--bll),transparent);opacity:0;transition:opacity .3s;}
+.feat-card:hover::after{opacity:1;}
+.feat-ico{width:52px;height:52px;background:rgba(27,79,216,.15);border:1px solid rgba(27,79,216,.3);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px;}
+.feat-card h3{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;margin-bottom:11px;}
+.feat-card p{font-size:15px;color:var(--mu);line-height:1.65;}
+.feat-tag{display:inline-block;margin-top:14px;font-size:12px;font-weight:600;padding:4px 12px;border-radius:100px;background:rgba(245,166,35,.1);color:var(--gd);border:1px solid rgba(245,166,35,.25);}
+.steps-row{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:60px;position:relative;}
+.steps-row::before{content:'';position:absolute;top:30px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--bl),var(--gd),var(--bl),transparent);}
+.step{text-align:center;padding:0 10px;}
+.step-num{width:60px;height:60px;background:var(--bg3);border:1px solid var(--br);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--bll);margin:0 auto 18px;position:relative;z-index:1;}
+.step h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:8px;}
+.step p{font-size:13px;color:var(--mu);line-height:1.6;}
+.roi-box{background:linear-gradient(135deg,rgba(27,79,216,.1),rgba(245,166,35,.05));border:1px solid rgba(27,79,216,.2);border-radius:24px;padding:52px;max-width:860px;margin:0 auto;}
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;margin-top:36px;}
+.roi-grp{margin-bottom:22px;}
+.roi-grp label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--mu);display:block;margin-bottom:8px;}
+.roi-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--bll);}
+.roi-grp input[type=range]{width:100%;accent-color:var(--bl);margin-top:6px;cursor:pointer;}
+.roi-res{background:var(--cd);border:1px solid var(--br);border-radius:12px;padding:16px 20px;margin-bottom:12px;}
+.roi-res .rl{font-size:13px;color:var(--mu);margin-bottom:5px;}
+.roi-res .rv{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;}
+.rv-gd{color:var(--gd);}.rv-gn{color:var(--gn);}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;margin-top:52px;}
+.testi{background:var(--bg3);border:1px solid var(--br);border-radius:18px;padding:28px;}
+.stars{color:var(--gd);font-size:14px;margin-bottom:14px;letter-spacing:2px;}
+.testi blockquote{font-size:15px;color:var(--mu);line-height:1.75;font-style:italic;margin-bottom:18px;}
+.testi-by{display:flex;align-items:center;gap:10px;}
+.av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+.testi-name{font-size:14px;font-weight:600;}
+.testi-role{font-size:12px;color:var(--mu);}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;max-width:860px;margin:52px auto 0;}
+.price-card{background:var(--bg3);border:1px solid var(--br);border-radius:24px;padding:40px 34px;position:relative;overflow:hidden;transition:transform .2s;}
+.price-card:hover{transform:translateY(-4px);}
+.price-card.pop{border-color:var(--bl);box-shadow:0 0 60px rgba(27,79,216,.2);}
+.price-card.pop::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(27,79,216,.07) 0,transparent 60%);pointer-events:none;}
+.pop-badge{position:absolute;top:20px;right:20px;background:var(--bl);color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:100px;}
+.price-tier{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.price-name{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;margin-bottom:18px;}
+.price-num{display:flex;align-items:baseline;gap:3px;margin-bottom:6px;}
+.price-num .cur{font-size:20px;font-weight:600;color:var(--mu);}
+.price-num .amt{font-family:'Syne',sans-serif;font-size:58px;font-weight:800;line-height:1;}
+.price-num .per{font-size:15px;color:var(--mu);}
+.price-note{font-size:13px;color:var(--gd);margin-bottom:28px;font-weight:500;}
+.divider{height:1px;background:var(--br);margin:22px 0;}
+.feats{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.feats li{display:flex;align-items:flex-start;gap:10px;font-size:15px;}
+.feats li .ck{width:20px;height:20px;min-width:20px;background:rgba(27,79,216,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#7ba8ff;margin-top:2px;}
+.price-btn{display:block;text-align:center;margin-top:30px;padding:15px;border-radius:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;text-decoration:none;transition:all .2s;}
+.pb-p{background:var(--bl);color:#fff;box-shadow:0 0 30px rgba(27,79,216,.3);}
+.pb-p:hover{background:var(--bll);}
+.pb-s{background:transparent;color:var(--tx);border:1px solid var(--br);}
+.pb-s:hover{border-color:rgba(255,255,255,.2);background:var(--cd);}
+.faq-list{max-width:720px;margin:52px auto 0;display:flex;flex-direction:column;gap:14px;}
+.faq-item{background:var(--cd);border:1px solid var(--br);border-radius:14px;overflow:hidden;}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:20px 26px;cursor:pointer;font-family:'Syne',sans-serif;font-size:15px;font-weight:600;transition:color .2s;gap:16px;}
+.faq-q:hover{color:var(--bll);}
+.faq-arr{width:26px;height:26px;min-width:26px;background:rgba(27,79,216,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;transition:transform .3s;}
+.faq-item.open .faq-arr{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s;font-size:15px;color:var(--mu);line-height:1.75;padding:0 26px;}
+.faq-item.open .faq-a{max-height:300px;padding:0 26px 22px;}
+.cta-final{text-align:center;position:relative;overflow:hidden;}
+.cta-final::before{content:'';position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(ellipse,rgba(27,79,216,.2) 0,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+footer{border-top:1px solid var(--br);padding:36px 24px;text-align:center;color:var(--mu);font-size:14px;}
+footer strong{color:var(--tx);}
+footer a{color:var(--mu);text-decoration:none;transition:color .2s;}
+footer a:hover{color:var(--bll);}
+@keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .7s,transform .7s;}
+.reveal.vis{opacity:1;transform:none;}
+@media(max-width:860px){.nav-links{display:none;}.steps-row{grid-template-columns:1fr 1fr;gap:24px;}.steps-row::before{display:none;}.roi-grid{grid-template-columns:1fr;}.roi-box{padding:28px 18px;}}
+@media(max-width:600px){h1{letter-spacing:-1.5px;}.price-grid{grid-template-columns:1fr;}.steps-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Handee <span>Social</span></a>
+  <div class="nav-links">
+    <a href="#probleme">Problème</a>
+    <a href="#fonctionnalites">Fonctionnalités</a>
+    <a href="#comment">Comment</a>
+    <a href="#tarifs">Tarifs</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="handee-register.html?plan=essentiel" class="nav-cta">Démarrer →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="badge"><span class="badge-dot"></span> Exclusif Conseillers Immobiliers Indépendants</div>
+  <h1>Vos réseaux sociaux,<br><em>100% automatiques.</em></h1>
+  <p class="hero-sub">TikTok, Instagram, LinkedIn, Facebook — posts viraux générés par IA chaque matin à 7h, publiés sans aucune action de votre part.</p>
+  <div class="btns">
+    <a href="handee-register.html?plan=essentiel" class="btn-p">Démarrer pour 59€/mois →</a>
+    <a href="#comment" class="btn-s">Voir comment ça marche</a>
+  </div>
+  <div class="platforms">
+    <small>Publié sur</small>
+    <div class="plat">📱 TikTok</div>
+    <div class="plat">📸 Instagram</div>
+    <div class="plat">💼 LinkedIn</div>
+    <div class="plat">👍 Facebook</div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-item">🚀 Publication <span>7j/7</span></div>
+    <div class="ticker-item">🎬 Vidéos IA <span>chaque matin</span></div>
+    <div class="ticker-item">📊 <span>4 plateformes</span> simultanées</div>
+    <div class="ticker-item">⏱️ <span>0h</span> de votre temps</div>
+    <div class="ticker-item">🏠 Contenu <span>100% immo</span></div>
+    <div class="ticker-item">📈 <span>+300% visibilité</span> dès le 1er mois</div>
+    <div class="ticker-item">🤖 <span>Claude AI + Kling AI</span></div>
+    <div class="ticker-item">🚀 Publication <span>7j/7</span></div>
+    <div class="ticker-item">🎬 Vidéos IA <span>chaque matin</span></div>
+    <div class="ticker-item">📊 <span>4 plateformes</span> simultanées</div>
+    <div class="ticker-item">⏱️ <span>0h</span> de votre temps</div>
+    <div class="ticker-item">🏠 Contenu <span>100% immo</span></div>
+    <div class="ticker-item">📈 <span>+300% visibilité</span> dès le 1er mois</div>
+    <div class="ticker-item">🤖 <span>Claude AI + Kling AI</span></div>
+  </div>
+</div>
+
+<!-- PROBLÈME -->
+<section id="probleme" class="sec-bg">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-lbl">Le problème</div>
+      <h2>Vous êtes conseiller,<br>pas community manager.</h2>
+      <p class="sec-sub">Pourtant en 2025, votre visibilité en ligne fait la différence entre un prospect qui vous appelle… et un qui appelle votre concurrent.</p>
+    </div>
+    <div class="prob-grid">
+      <div class="prob-card reveal"><span class="prob-ico">⏰</span><h3>Pas le temps</h3><p>Créer du contenu quotidien demande 2–3h par jour. C'est autant de moins pour vos mandats, vos clients, votre chiffre d'affaires.</p></div>
+      <div class="prob-card reveal"><span class="prob-ico">🤷</span><h3>Quoi poster ?</h3><p>Le marché bouge. Les algorithmes changent. Savoir ce qui cartonne cette semaine demande une veille permanente impossible à tenir.</p></div>
+      <div class="prob-card reveal"><span class="prob-ico">📉</span><h3>Invisible = inexistant</h3><p>Sans présence régulière, vos profils tombent dans l'oubli. Les prospects cherchent sur les réseaux avant de vous appeler.</p></div>
+      <div class="prob-card reveal"><span class="prob-ico">💸</span><h3>Agences trop chères</h3><p>Un community manager freelance coûte 800€ à 2 000€/mois minimum. Hors de portée pour un indépendant.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FONCTIONNALITÉS -->
+<section id="fonctionnalites">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="sec-lbl">La solution</div>
+      <h2>Votre CM automatique,<br>propulsé par l'IA</h2>
+      <p class="sec-sub" style="margin:0 auto">Une IA publie pour vous chaque matin. Contenu viral, adapté à l'immobilier, sur toutes vos plateformes.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card reveal"><div class="feat-ico">🎬</div><h3>Vidéos IA virales</h3><p>Lun, mer, ven : une vidéo courte TikTok/Reels générée par Kling AI et publiée automatiquement. Thèmes immo tendance : PTZ, comparatifs villes, conseils.</p><span class="feat-tag">Kling 2.1 · 3 vidéos/semaine</span></div>
+      <div class="feat-card reveal"><div class="feat-ico">🖼️</div><h3>Carrousels LinkedIn</h3><p>Mar et jeu : un carrousel éducatif publié sur LinkedIn, Instagram et Facebook. Positionnement expert, données marché, guides acheteurs.</p><span class="feat-tag">Flux Schnell · 2 carrousels/semaine</span></div>
+      <div class="feat-card reveal"><div class="feat-ico">✍️</div><h3>Captions sur-mesure</h3><p>Chaque post a sa caption adaptée à chaque plateforme. TikTok, Instagram, Facebook, LinkedIn. Hashtags optimisés, CTA inclus.</p><span class="feat-tag">Claude AI · 4 captions/post</span></div>
+      <div class="feat-card reveal"><div class="feat-ico">🔥</div><h3>Veille virale quotidienne</h3><p>L'IA analyse chaque jour les posts immo les plus viraux et s'en inspire pour votre contenu. Vous surfez toujours sur les tendances.</p><span class="feat-tag">Veille auto · Chaque matin</span></div>
+      <div class="feat-card reveal"><div class="feat-ico">📊</div><h3>Rapport mensuel</h3><p>Chaque mois : vues, likes, partages par plateforme, tendances, recommandations IA personnalisées. Tout automatique dans votre boîte mail.</p><span class="feat-tag">Rapport auto · 1er du mois</span></div>
+      <div class="feat-card reveal"><div class="feat-ico">⚡</div><h3>Zéro intervention</h3><p>Une fois configuré en 30 min, tout est automatique. Vous recevez une notification pour chaque publication. Aucune action requise.</p><span class="feat-tag">100% hands-free</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT -->
+<section id="comment" class="sec-bg">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="sec-lbl">Comment ça marche</div>
+      <h2>Automatique de A à Z</h2>
+      <p class="sec-sub" style="margin:0 auto">Chaque matin à 7h, le système se déclenche sans que vous n'ayez rien à faire.</p>
+    </div>
+    <div class="steps-row">
+      <div class="step reveal"><div class="step-num">1</div><h3>Veille virale</h3><p>L'IA scanne les posts immo les plus viraux du moment en France</p></div>
+      <div class="step reveal"><div class="step-num">2</div><h3>Adaptation IA</h3><p>Claude adapte le contenu à votre positionnement immo neuf</p></div>
+      <div class="step reveal"><div class="step-num">3</div><h3>Génération</h3><p>Kling crée la vidéo ou Flux génère les images du carrousel</p></div>
+      <div class="step reveal"><div class="step-num">4</div><h3>Publication</h3><p>Publié simultanément sur TikTok, Instagram, Facebook, LinkedIn</p></div>
+      <div class="step reveal"><div class="step-num">5</div><h3>Notification</h3><p>Vous recevez un résumé de ce qui a été publié ce matin</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI -->
+<section>
+  <div class="container" style="text-align:center">
+    <div class="reveal">
+      <div class="sec-lbl">Calculateur ROI</div>
+      <h2>Combien ça vaut vraiment ?</h2>
+      <p class="sec-sub" style="margin:0 auto">Calculez ce que vous économisez versus un community manager classique.</p>
+    </div>
+    <div class="roi-box reveal">
+      <div class="roi-grid">
+        <div>
+          <div class="roi-grp"><label>Posts/mois actuellement</label><div class="roi-val" id="v-posts">20 posts</div><input type="range" min="10" max="100" value="20" id="r-posts" oninput="roi()"></div>
+          <div class="roi-grp"><label>Tarif CM freelance (€/mois)</label><div class="roi-val" id="v-cm">800 €</div><input type="range" min="300" max="2000" value="800" step="100" id="r-cm" oninput="roi()"></div>
+          <div class="roi-grp"><label>Votre temps actuel (h/mois)</label><div class="roi-val" id="v-time">10 h</div><input type="range" min="2" max="40" value="10" id="r-time" oninput="roi()"></div>
+        </div>
+        <div>
+          <div class="roi-res"><div class="rl">Économie vs CM freelance</div><div class="rv rv-gd" id="r-save">741 €/mois</div></div>
+          <div class="roi-res"><div class="rl">Heures récupérées / an</div><div class="rv rv-gn" id="r-hrs">120 h/an</div></div>
+          <div class="roi-res"><div class="rl">Coût Handee Social</div><div class="rv" style="font-size:22px">À partir de 59 €/mois</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec-bg">
+  <div class="container" style="text-align:center">
+    <div class="reveal"><div class="sec-lbl">Témoignages</div><h2>Ce que disent nos conseillers</h2></div>
+    <div class="testi-grid">
+      <div class="testi reveal"><div class="stars">★★★★★</div><blockquote>"En 2 semaines, j'ai arrêté de passer 2h/jour sur mes réseaux. Handee publie pour moi chaque matin. Mes leads ont augmenté de 40%."</blockquote><div class="testi-by"><div class="av" style="background:#3b6ef522;color:#3b6ef5">SM</div><div><div class="testi-name">Sophie Martin</div><div class="testi-role">Conseillère · Lyon</div></div></div></div>
+      <div class="testi reveal"><div class="stars">★★★★★</div><blockquote>"Le plan Pro vaut vraiment la peine. Mon contenu est personnalisé avec mon nom et ma ville. +60% de demandes en seulement 1 mois."</blockquote><div class="testi-by"><div class="av" style="background:#f5a62322;color:#f5a623">MD</div><div><div class="testi-name">Marc Dupont</div><div class="testi-role">Agent · Bordeaux</div></div></div></div>
+      <div class="testi reveal"><div class="stars">★★★★★</div><blockquote>"J'étais sceptique. Après 3 semaines, TikTok m'a apporté 2 nouveaux mandats. Le ROI est là dès le premier mois. Je ne reviendrai jamais en arrière."</blockquote><div class="testi-by"><div class="av" style="background:#22c55e22;color:#22c55e">CL</div><div><div class="testi-name">Claire Leroy</div><div class="testi-role">Mandataire · Nantes</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="tarifs" class="sec-bg">
+  <div class="container" style="text-align:center">
+    <div class="reveal"><div class="sec-lbl">Tarifs</div><h2>Simple. Transparent. Rentable.</h2><p class="sec-sub" style="margin:0 auto">Sans engagement, sans frais cachés. Résiliable à tout moment en un email.</p></div>
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <div class="price-tier">Starter</div>
+        <div class="price-name">Handee Essentiel</div>
+        <div class="price-num"><span class="cur">€</span><span class="amt">59</span><span class="per">/mois</span></div>
+        <div class="price-note">✓ Sans engagement · Résiliable à tout moment</div>
+        <div class="divider"></div>
+        <ul class="feats">
+          <li><span class="ck">✓</span><span><strong>20 publications/mois</strong></span></li>
+          <li><span class="ck">✓</span><span>3 vidéos IA TikTok/Reels/semaine</span></li>
+          <li><span class="ck">✓</span><span>2 carrousels LinkedIn/semaine</span></li>
+          <li><span class="ck">✓</span><span>4 plateformes simultanées</span></li>
+          <li><span class="ck">✓</span><span>Captions adaptées par plateforme</span></li>
+          <li><span class="ck">✓</span><span>Rapport mensuel de performance</span></li>
+          <li><span class="ck">✓</span><span>Notification email après chaque post</span></li>
+          <li><span class="ck">✓</span><span>Onboarding guidé 30 min</span></li>
+        </ul>
+        <a href="handee-register.html?plan=essentiel" class="price-btn pb-s">Démarrer →</a>
+      </div>
+      <div class="price-card pop reveal">
+        <div class="pop-badge">⭐ Recommandé</div>
+        <div class="price-tier">Pro</div>
+        <div class="price-name">Handee Pro</div>
+        <div class="price-num"><span class="cur">€</span><span class="amt">79</span><span class="per">/mois</span></div>
+        <div class="price-note">🔥 Meilleur ROI — économisez 720€/mois vs CM</div>
+        <div class="divider"></div>
+        <ul class="feats">
+          <li><span class="ck">✓</span><span><strong>Tout le plan Essentiel</strong></span></li>
+          <li><span class="ck">✓</span><span><strong>Contenu à votre nom et votre ville</strong></span></li>
+          <li><span class="ck">✓</span><span><strong>Stories Instagram</strong> automatiques</span></li>
+          <li><span class="ck">✓</span><span><strong>Hashtags locaux</strong> ciblés votre zone</span></li>
+          <li><span class="ck">✓</span><span><strong>Rapport analytique avancé</strong></span></li>
+          <li><span class="ck">✓</span><span><strong>Support prioritaire</strong> 48h</span></li>
+          <li><span class="ck">✓</span><span><strong>A/B testing</strong> de hooks auto</span></li>
+          <li><span class="ck">✓</span><span><strong>Dashboard</strong> personnalisé</span></li>
+        </ul>
+        <a href="handee-register.html?plan=pro" class="price-btn pb-p">Je veux le Pro →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container" style="text-align:center">
+    <div class="reveal"><div class="sec-lbl">FAQ</div><h2>Vos questions, nos réponses.</h2></div>
+    <div class="faq-list">
+      <div class="faq-item reveal" onclick="faq(this)"><div class="faq-q">Est-ce que je dois faire quelque chose au quotidien ? <span class="faq-arr">+</span></div><div class="faq-a">Non, absolument rien. Une fois votre compte configuré en 30 min, tout est automatique. Vous recevez une notification chaque matin confirmant les publications. C'est tout.</div></div>
+      <div class="faq-item reveal" onclick="faq(this)"><div class="faq-q">Le contenu est-il vraiment adapté à l'immobilier ? <span class="faq-arr">+</span></div><div class="faq-a">Oui. L'IA est configurée sur les thématiques immo France : PTZ, immo neuf, comparatifs villes, conseils acheteurs/vendeurs, tendances marché. Contenu professionnel et crédible.</div></div>
+      <div class="faq-item reveal" onclick="faq(this)"><div class="faq-q">Mes comptes sociaux sont-ils en sécurité ? <span class="faq-arr">+</span></div><div class="faq-a">Oui. Nous utilisons Upload-Post, un service certifié qui se connecte via les APIs officielles de chaque plateforme (TikTok, Meta, LinkedIn). Vos identifiants ne sont jamais stockés chez nous.</div></div>
+      <div class="faq-item reveal" onclick="faq(this)"><div class="faq-q">Puis-je personnaliser les posts ? <span class="faq-arr">+</span></div><div class="faq-a">Dans le plan Pro, le contenu intègre votre nom, votre ville et vos spécialités. Dans tous les plans, vous choisissez les thèmes depuis votre espace. Vous pouvez activer le mode "approbation" pour valider chaque post avant publication.</div></div>
+      <div class="faq-item reveal" onclick="faq(this)"><div class="faq-q">Comment se passe l'onboarding ? <span class="faq-arr">+</span></div><div class="faq-a">Après inscription, vous suivez 5 étapes guidées (30 min) : créer vos comptes Upload-Post et fal.ai, connecter vos réseaux sociaux, choisir vos thèmes. Le premier post est publié dès le lendemain matin à 7h.</div></div>
+      <div class="faq-item reveal" onclick="faq(this)"><div class="faq-q">Puis-je résilier à tout moment ? <span class="faq-arr">+</span></div><div class="faq-a">Oui, sans engagement, sans frais de résiliation. Résiliez depuis votre espace client ou par email. Votre accès reste actif jusqu'à la fin de la période payée.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-final">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-lbl" style="text-align:center">Commencer maintenant</div>
+      <h2 style="text-align:center;max-width:700px;margin:0 auto 18px">Votre prochaine vente peut venir<br><em>d'un post publié demain matin.</em></h2>
+      <p style="text-align:center;font-size:17px;color:var(--mu);max-width:520px;margin:0 auto 48px;line-height:1.7">Rejoignez les conseillers qui ont arrêté de courir après les réseaux — et laissent l'IA travailler à leur place.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+        <a href="handee-register.html?plan=essentiel" class="btn-p" style="font-size:18px;padding:20px 52px">Démarrer pour 59€/mois →</a>
+        <a href="handee-register.html?plan=pro" class="btn-s" style="font-size:16px;padding:20px 32px">Plan Pro 79€/mois</a>
+      </div>
+      <p style="text-align:center;color:var(--mu);font-size:14px;margin-top:20px">Setup en 30 min · Sans engagement · Premier post demain matin à 7h</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="max-width:900px;margin:0 auto">
+    <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:16px">Handee <span style="color:var(--bll)">Social</span></div>
+    <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:20px">
+      <a href="#fonctionnalites">Fonctionnalités</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#faq">FAQ</a>
+      <a href="handee-register.html">Inscription</a>
+      <a href="handee-social-app.html">Mon espace</a>
+    </div>
+    <p>© 2025 <strong>Handee Social</strong> — Un service Handee.fr · Claude AI · Kling AI · Upload-Post</p>
+    <p style="margin-top:8px;font-size:12px"><a href="#">CGU</a> · <a href="#">Confidentialité</a> · <a href="#">Mentions légales</a></p>
+  </div>
+</footer>
+
+<script>
+function roi(){
+  const p=+document.getElementById('r-posts').value;
+  const c=+document.getElementById('r-cm').value;
+  const t=+document.getElementById('r-time').value;
+  document.getElementById('v-posts').textContent=p+' posts';
+  document.getElementById('v-cm').textContent=c+' €';
+  document.getElementById('v-time').textContent=t+' h';
+  document.getElementById('r-save').textContent=(c-59).toLocaleString('fr-FR')+' €/mois';
+  document.getElementById('r-hrs').textContent=(t*12)+' h/an';
+}
+roi();
+function faq(el){
+  const open=el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!open)el.classList.add('open');
+}
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('vis'),i*80);});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

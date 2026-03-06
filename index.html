@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handee Social — CM automatique pour conseillers immobiliers</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:#05080f;color:#f0f4ff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;
+  background:radial-gradient(ellipse at 30% 30%,rgba(27,79,216,.25) 0,transparent 55%),
+             radial-gradient(ellipse at 70% 70%,rgba(245,166,35,.1) 0,transparent 55%),#05080f;}
+.logo{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;margin-bottom:8px;}
+.logo span{color:#3b6ef5;}
+.tagline{font-size:16px;color:#8896b3;margin-bottom:56px;}
+.cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:900px;}
+.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:36px 32px;text-decoration:none;color:#f0f4ff;transition:all .25s;flex:1;min-width:240px;max-width:280px;}
+.card:hover{transform:translateY(-6px);border-color:rgba(27,79,216,.5);background:rgba(27,79,216,.07);}
+.card-icon{font-size:40px;margin-bottom:16px;display:block;}
+.card-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:8px;}
+.card-desc{font-size:14px;color:#8896b3;line-height:1.6;margin-bottom:16px;}
+.card-arrow{font-size:13px;font-weight:600;color:#3b6ef5;}
+.card.featured{border-color:rgba(27,79,216,.4);background:rgba(27,79,216,.07);}
+</style>
+</head>
+<body>
+  <div class="logo">Handee <span>Social</span></div>
+  <div class="tagline">CM automatique · Conseillers immobiliers · IA</div>
+  <div class="cards">
+    <a href="handee-offre-conseillers.html" class="card featured">
+      <span class="card-icon">🏠</span>
+      <div class="card-title">Découvrir l'offre</div>
+      <div class="card-desc">Tout savoir sur Handee Social, les fonctionnalités, les tarifs et les témoignages.</div>
+      <div class="card-arrow">Voir la page →</div>
+    </a>
+    <a href="handee-register.html?plan=essentiel" class="card">
+      <span class="card-icon">🚀</span>
+      <div class="card-title">Créer mon compte</div>
+      <div class="card-desc">Inscription en 3 étapes. Premier post publié demain matin à 7h automatiquement.</div>
+      <div class="card-arrow">S'inscrire →</div>
+    </a>
+    <a href="handee-social-app.html" class="card">
+      <span class="card-icon">📊</span>
+      <div class="card-title">Mon espace</div>
+      <div class="card-desc">Accédez à votre dashboard : publications, comptes sociaux, rapports et paramètres.</div>
+      <div class="card-arrow">Se connecter →</div>
+    </a>
+  </div>
+</body>
+</html>
